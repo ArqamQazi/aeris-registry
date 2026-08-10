@@ -7,7 +7,7 @@
 schema_version = 1
 id = "pacstall"
 name = "Pacstall"
-version = "6.4.2"
+version = "6.4.4"
 description = "An AUR inspired package manager for Ubuntu"
 
 # Pacstall colours its output and marks repository names as clickable links.
@@ -33,6 +33,7 @@ min_version = "6.4"
 # carries a description at all.
 [ops.search]
 args = ["-Sd", "{query}"]
+elevate = false
 output = { format = "lines" }
 pattern = "^(?P<name>\\S+)\\s+-\\s+(?P<description>.*?)\\s+@\\s+(?P<repo>\\S+)\\s*$"
 fields = { name = "name", description = "description", repo = "repo" }
@@ -45,9 +46,49 @@ fields = { name = "name", description = "description", repo = "repo" }
 # reading of it.
 [ops.list_installed]
 args = ["-L"]
+elevate = false
 output = { format = "lines" }
 pattern = "^(?P<name>\\S+)\\s*$"
 fields = { name = "name" }
+
+# Asked about one package, pacstall prints what it knows a name and a value
+# to a line. It is the only place a version appears, since neither listing
+# carries one.
+[ops.info]
+args = ["-Si", "{selector}"]
+elevate = false
+output = { format = "keyvalue", separator = "=" }
+fields = { name = "pkgbase", version = "pkgver", description = "pkgdesc", repo = "gives" }
+
+# Everything else pacstall reports about a package. Aeris shows these as
+# given, so the labels are what a reader sees.
+[[ops.info.extra]]
+label = "Maintainer"
+field = "maintainer"
+
+[[ops.info.extra]]
+label = "Installs as"
+field = "gives"
+
+[[ops.info.extra]]
+label = "Architecture"
+field = "arch"
+
+[[ops.info.extra]]
+label = "Depends"
+field = "depends"
+
+[[ops.info.extra]]
+label = "Optional"
+field = "optdepends"
+
+[[ops.info.extra]]
+label = "Replaces"
+field = "replaces"
+
+[[ops.info.extra]]
+label = "Source"
+field = "source"
 
 # `-P` answers the prompts, which is the only way this runs unattended.
 # Elevation comes from the [system] table above rather than from here.
@@ -58,6 +99,39 @@ output = { format = "lines" }
 [ops.remove]
 args = ["-P", "-R", "{selector}"]
 output = { format = "lines" }
+
+# Listing upgrades is a question, not a change, so it does not need the
+# privilege the rest of this manifest runs with. It does need a terminal:
+# pacstall hides the cursor and reads the terminal's settings on this path,
+# and gives up when there is neither.
+[ops.list_updates]
+args = ["-Lu"]
+needs_terminal = true
+elevate = false
+output = { format = "lines" }
+pattern = "^\\s*(?P<name>\\S+)\\s+@\\s+(?P<repo>\\S+)\\s+\\(\\s*(?P<version>\\S+)\\s+->\\s+(?P<new_version>\\S+)\\s*\\)\\s*$"
+fields = { name = "name", version = "version", new_version = "new_version", repo = "repo" }
+
+# The installed listing is only names, so everything else is asked for one
+# package at a time. This reads what pacstall recorded locally, which is quick
+# and needs no privilege.
+[ops.info_installed]
+args = ["-Ci", "{selector}"]
+elevate = false
+output = { format = "keyvalue" }
+fields = { name = "name", version = "version", description = "description", size = "size", installed_at = "date installed" }
+
+[[ops.info_installed.extra]]
+label = "Maintainer"
+field = "maintainer"
+
+[[ops.info_installed.extra]]
+label = "Dependencies"
+field = "dependencies"
+
+[[ops.info_installed.extra]]
+label = "Install type"
+field = "install type"
 
 [ops.update]
 args = ["-P", "-Up"]

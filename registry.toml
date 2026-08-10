@@ -1,0 +1,30 @@
+# The adapters aeris offers to add.
+#
+# An adapter is a manifest and nothing else: it names the arguments to run for
+# each operation and how to read what comes back. Aeris fetches the manifest,
+# checks it against the checksum here, reads it, and keeps it only if the id
+# inside matches the id below.
+#
+# The checksum is over the manifest file exactly as served. Change a manifest
+# and the checksum here has to change with it.
+[registry]
+version = 1
+updated = "2026-08-10"
+
+[[plugins]]
+id = "am"
+name = "AppMan"
+version = "10.3"
+description = "AppImages and portable programs from AM's database, installed per user"
+manifest_url = "https://raw.githubusercontent.com/pkgforge/aeris-registry/main/adapters/am.toml"
+manifest_checksum_sha256 = "5945c0654b3f8e39bd569a0431215b36f0fb845ad00f1803fb8478b7cfbe9f24"
+repo_url = "https://github.com/ivan-hc/AM"
+
+[[plugins]]
+id = "pacstall"
+name = "Pacstall"
+version = "6.4.2"
+description = "An AUR inspired package manager for Ubuntu, installed system wide"
+manifest_url = "https://raw.githubusercontent.com/pkgforge/aeris-registry/main/adapters/pacstall.toml"
+manifest_checksum_sha256 = "d5721d4e1cad818952b2406109aa3a5021193f7c0fc1ae7591637d95e628f64f"
+repo_url = "https://github.com/pacstall/pacstall"

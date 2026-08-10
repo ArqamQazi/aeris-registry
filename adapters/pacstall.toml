@@ -1,0 +1,64 @@
+# Pacstall, driven as a command.
+#
+# Pacstall installs system wide and writes for a person, so every operation
+# here is read with a pattern rather than a field map.
+#
+# Verified against pacstall 6.4.2 on Ubuntu 24.04.
+schema_version = 1
+id = "pacstall"
+name = "Pacstall"
+version = "6.4.2"
+description = "An AUR inspired package manager for Ubuntu"
+
+# Pacstall colours its output and marks repository names as clickable links.
+strip_ansi = true
+
+# Everything pacstall installs is system wide; there is no per-user scope.
+system_only = true
+
+# It elevates itself with sudo as it goes, which cannot ask for a password
+# from a window. Running the whole thing elevated means those calls are
+# already root and never ask.
+[system]
+elevate = true
+
+[detect]
+command = "pacstall"
+version = ["-V"]
+# The oldest release this was checked against. Earlier ones may well work;
+# nobody has looked.
+min_version = "6.4"
+
+# `-Sd` searches descriptions as well as names, and is the only listing that
+# carries a description at all.
+[ops.search]
+args = ["-Sd", "{query}"]
+output = { format = "lines" }
+pattern = "^(?P<name>\\S+)\\s+-\\s+(?P<description>.*?)\\s+@\\s+(?P<repo>\\S+)\\s*$"
+fields = { name = "name", description = "description", repo = "repo" }
+
+# Piped rather than shown on a terminal, `-L` prints one bare name per line.
+# It says nothing about versions, so installed packages show without one.
+#
+# With nothing installed it exits non-zero, which reads as a failure rather
+# than as an empty list. That is pacstall's answer, not a fault in the
+# reading of it.
+[ops.list_installed]
+args = ["-L"]
+output = { format = "lines" }
+pattern = "^(?P<name>\\S+)\\s*$"
+fields = { name = "name" }
+
+# `-P` answers the prompts, which is the only way this runs unattended.
+# Elevation comes from the [system] table above rather than from here.
+[ops.install]
+args = ["-P", "-I", "{selector}"]
+output = { format = "lines" }
+
+[ops.remove]
+args = ["-P", "-R", "{selector}"]
+output = { format = "lines" }
+
+[ops.update]
+args = ["-P", "-Up"]
+output = { format = "lines" }

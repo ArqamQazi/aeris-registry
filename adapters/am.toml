@@ -1,0 +1,61 @@
+# AM, driven as a command. AM writes for a person rather than for a program,
+# so every operation here is read with a pattern instead of a field map.
+#
+# This describes AppMan, the per-user half of AM. The system-wide `am` takes
+# the same arguments, so pointing detect.command at it is the only change.
+schema_version = 1
+id = "am"
+name = "AppMan"
+version = "10.3"
+description = "AppImages and portable programs from AM's database"
+
+# AM colours its output when a terminal is watching.
+strip_ansi = true
+
+# AM ships one binary per scope: `appman` for the person running it and `am`
+# for everyone, the latter needing root.
+[system]
+command = "am"
+elevate = true
+
+[detect]
+command = "appman"
+version = ["-v"]
+min_version = "10"
+
+# Both listings are the same shape: a diamond, the name, then the description.
+[ops.list]
+args = ["-l"]
+output = { format = "lines" }
+pattern = "^\\s*◆\\s+(?P<name>\\S+)\\s*:\\s*(?P<description>.*?)\\s*$"
+fields = { name = "name", description = "description" }
+
+[ops.search]
+args = ["-q", "{query}"]
+output = { format = "lines" }
+pattern = "^\\s*◆\\s+(?P<name>\\S+)\\s*:\\s*(?P<description>.*?)\\s*$"
+fields = { name = "name", description = "description" }
+
+# The installed listing is a table. A name carrying `**` is one AM considers
+# archived or stale, which is worth keeping out of the name itself.
+[ops.list_installed]
+args = ["-f"]
+output = { format = "lines" }
+pattern = "^\\s*◆\\s+(?P<name>[^\\s*|]+)\\**\\s*\\|\\s*(?P<version>[^|]+?)\\s*\\|\\s*(?P<pkg_type>[^|]+?)\\s*\\|\\s*(?P<size>[^|]+?)\\s*$"
+fields = { name = "name", version = "version", pkg_type = "pkg_type" }
+
+# AM has no machine-readable progress, so these report the stage they are at
+# and nothing finer.
+[ops.install]
+args = ["-i", "{selector}"]
+output = { format = "lines" }
+
+# `-R` rather than `-r`: the asking form would sit waiting for an answer that
+# a window cannot give it.
+[ops.remove]
+args = ["-R", "{selector}"]
+output = { format = "lines" }
+
+[ops.update]
+args = ["-u"]
+output = { format = "lines" }

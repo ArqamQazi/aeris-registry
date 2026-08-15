@@ -6,7 +6,7 @@
 schema_version = 1
 id = "am"
 name = "AppMan"
-version = "10.3.8"
+version = "1"
 description = "AppImages and portable programs from AM's database"
 
 # AM colours its output when a terminal is watching.

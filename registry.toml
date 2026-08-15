@@ -7,6 +7,11 @@
 #
 # The checksum is over the manifest file exactly as served. Change a manifest
 # and the checksum here has to change with it.
+#
+# A version here is the manifest's own revision, counting from 1, and has
+# nothing to do with the version of the manager it describes. A manager
+# updates itself on its own schedule; the manifest changes when someone
+# changes it.
 [registry]
 version = 1
 updated = "2026-08-15"
@@ -14,17 +19,17 @@ updated = "2026-08-15"
 [[plugins]]
 id = "am"
 name = "AppMan"
-version = "10.3.8"
-description = "AppImages and portable programs from AM's database, installed per user"
+version = "1"
+description = "AppImages and portable programs from AM's database"
 manifest_url = "https://raw.githubusercontent.com/pkgforge/aeris-registry/main/adapters/am.toml"
-manifest_checksum_sha256 = "899258b482a49c15e3ddc903f949899144f50038948aeba9797b365d654538a9"
+manifest_checksum_sha256 = "7cd2e8f03a9750ee428832820127eaa92efb2318aee021ca72edb002758f4160"
 repo_url = "https://github.com/ivan-hc/AM"
 
 [[plugins]]
 id = "pacstall"
 name = "Pacstall"
-version = "6.4.5"
-description = "An AUR inspired package manager for Ubuntu, installed system wide"
+version = "1"
+description = "An AUR inspired package manager for Ubuntu"
 manifest_url = "https://raw.githubusercontent.com/pkgforge/aeris-registry/main/adapters/pacstall.toml"
-manifest_checksum_sha256 = "bac6472f2f1666fc5dd247a926cd04bd6670297d0cd9995cc99c3647cf69db08"
+manifest_checksum_sha256 = "f525891a879f70518cf698040f266683277fe7f4c0f330b835e0f11fb40d91a7"
 repo_url = "https://github.com/pacstall/pacstall"

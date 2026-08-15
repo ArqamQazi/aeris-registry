@@ -6,7 +6,7 @@
 schema_version = 1
 id = "am"
 name = "AppMan"
-version = "10.3.6"
+version = "10.3.7"
 description = "AppImages and portable programs from AM's database"
 
 # AM colours its output when a terminal is watching.
@@ -76,9 +76,11 @@ args = ["-R", "{selector}"]
 output = { format = "lines" }
 
 [ops.update]
+needs_terminal = true
 args = ["-u", "{selector}"]
 output = { format = "lines" }
 
 [ops.update_all]
+needs_terminal = true
 args = ["-u"]
 output = { format = "lines" }

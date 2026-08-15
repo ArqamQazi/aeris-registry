@@ -6,7 +6,7 @@
 schema_version = 1
 id = "am"
 name = "AppMan"
-version = "10.3.5"
+version = "10.3.6"
 description = "AppImages and portable programs from AM's database"
 
 # AM colours its output when a terminal is watching.
@@ -75,9 +75,10 @@ output = { format = "lines" }
 args = ["-R", "{selector}"]
 output = { format = "lines" }
 
-# Named rather than bare: `-u` on its own updates everything AM holds, so
-# asking for one package would quietly act on all of them. AM takes the names
-# it should update as the arguments after the flag.
 [ops.update]
 args = ["-u", "{selector}"]
+output = { format = "lines" }
+
+[ops.update_all]
+args = ["-u"]
 output = { format = "lines" }

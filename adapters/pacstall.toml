@@ -7,7 +7,7 @@
 schema_version = 1
 id = "pacstall"
 name = "Pacstall"
-version = "6.4.4"
+version = "6.4.5"
 description = "An AUR inspired package manager for Ubuntu"
 
 # Pacstall colours its output and marks repository names as clickable links.
@@ -133,6 +133,6 @@ field = "dependencies"
 label = "Install type"
 field = "install type"
 
-[ops.update]
+[ops.update_all]
 args = ["-P", "-Up"]
 output = { format = "lines" }

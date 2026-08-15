@@ -6,7 +6,7 @@
 schema_version = 1
 id = "am"
 name = "AppMan"
-version = "10.3.7"
+version = "10.3.8"
 description = "AppImages and portable programs from AM's database"
 
 # AM colours its output when a terminal is watching.
@@ -56,7 +56,7 @@ fields = { name = "name", description = "description" }
 [ops.list_installed]
 args = ["-f"]
 output = { format = "lines" }
-pattern = "^\\s*[^-\\s]\\S*\\s+(?P<name>[^\\s*|]+)\\**\\s*\\|(?:\\s*(?P<repo>[^|]+?)\\s*\\|)?\\s*(?P<version>[^|]+?)\\s*\\|\\s*(?P<pkg_type>[^|]+?)\\s*\\|\\s*(?P<size>[^|]+?)\\s*$"
+pattern = "^\\s*[^-\\s]\\S*\\s+(?P<name>[^\\s*|]+)\\**\\s*\\|(?:\\s*(?P<repo>[^|]+?)\\s*\\|)?\\s*(?P<version>[^\\s|\\\\]+?)_*(?:\\\\x[0-9a-fA-F]{2}|_)*\\s*\\|\\s*(?P<pkg_type>[^|]+?)\\s*\\|\\s*(?P<size>[^|]+?)\\s*$"
 fields = { name = "name", version = "version", pkg_type = "pkg_type", size = "size", repo = "repo" }
 
 # AM has no machine-readable progress, so these report the stage they are at

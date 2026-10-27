@@ -31,7 +31,7 @@ name = "Flatpak"
 version = "1"
 description = "Sandboxed desktop applications via Flatpak"
 manifest_url = "https://raw.githubusercontent.com/pkgforge/aeris-registry/main/adapters/flatpak.toml"
-manifest_checksum_sha256 = "590ff92448b1afd0fe8a6933f70b77fcfbcf5e8974619ace26a9109407922263"
+manifest_checksum_sha256 = "82d05353a88c6ca9b3a7c5e95e80ab4057b53a4a22339d203dbec81dd6b1fe61"
 repo_url = "https://github.com/flatpak/flatpak"
 
 [[plugins]]
